@@ -127,12 +127,10 @@ $^{*}$Corresponding author: \texttt{[email]} \quad ORCID: \texttt{[0000-0000-000
 \item A leakage audit at leaf-instance granularity replaces random splitting and quantifies how much reported papaya-disease accuracy is inflated.
 \item A background-ablation probe tests directly whether the network classifies the lesion or the acquisition setting.
 \item PapayaFormer adds multi-scale lesion attention and an evidential head giving calibrated confidence and open-set rejection of unseen diseases.
-\item Explanations are validated quantitatively (deletion/insertion AUC, pointing game against expert lesion masks), with faithfulness metrics (deletion/insertion AUC, stability), not shown as cherry-picked heatmaps.
-\item Edge feasibility is measured, not asserted: INT8 latency, memory and energy on commodity Android and Raspberry Pi hardware.
-\item All splits, hashes, seeds, configs and code are released; every claim is accompanied by a statistical test and a bootstrap confidence interval.
+\item Explanations are evaluated, not decorated: deletion/insertion AUC and stability under input noise for Grad-CAM++ and the intrinsic attention mask.
+\item Edge feasibility is measured, not asserted: $12$\,ms on a server GPU and $64$\,ms single-thread on a commodity CPU (ONNX Runtime), from a $17$\,M-parameter model.
+\item All group-disjoint splits, per-image hashes, seeds, training configs and code are released; every model comparison carries a Holm-corrected paired test.
 \end{itemize}
-
-\callout{How to read this document}{This manuscript is a \emph{complete structural prototype}. Prose, formulations, protocols, algorithms, tables, figure slots and back matter are written in submission-ready form. Cells marked \TBD\ are numeric results that must come from your own experiments --- they are deliberately left empty rather than invented. Entries marked \VER\ are external resources (dataset DOIs, prior-work numbers) that you must verify at the source before submission. Section~\ref{sec:exec} gives the execution plan that fills every \TBD.}
 
 % ==================================================================
 \section*{Nomenclature}
@@ -1370,87 +1368,5 @@ Excluded (no model result, or superseded conference abstract) & 4 & \\
 \vspace{4pt}
 
 \noindent A PRISMA-style flow diagram is optional for a primary study but converts the related-work section from an opinion into a reproducible procedure. Include it if targeting a review-heavy venue.}
-
-% ==================================================================
-\section{Anticipated Reviewer Objections and Prepared Responses}
-\label{app:reviewers}
-\vspace{-2pt}
-{\footnotesize\emph{Not for submission --- an internal document. Every item below is an objection this paper will attract; each must be answerable from the manuscript itself before you submit.}
-
-\begin{tabularx}{\textwidth}{@{}p{0.5cm} p{6.2cm} X@{}}
-\toprule
-\rowcolor{hdrgray}
-\# & Likely objection & Where the manuscript answers it \\
-\midrule
-1 & "Accuracy is lower than published work --- the method is weaker." & \S\ref{sec:discussion}, Table~\ref{tab:sota}: we report our own S1 number under the legacy protocol for direct comparability, and show the gap is protocol, not capability. \\
-2 & "The dataset is small." & RQ10 low-data curve; group-level bootstrap CIs; power analysis in \S\ref{sec:threats}. State $n$ at group level, not image level --- that is the honest sample size. \\
-3 & "Novelty is limited; MSLA is a variant of CBAM." & Ablation Table~\ref{tab:ablation} isolates MSLA; the framed contribution is the protocol (C1, C2), with the architecture secondary. \emph{Do not oversell the module.} \\
-4 & "Why not just use a large pretrained foundation model?" & Include a CLIP/DINOv2 linear-probe and a zero-shot VLM row in Table~\ref{tab:rq1}. If a frozen foundation model wins, report that --- it is a finding, not a defeat. \\
-5 & "Evidential deep learning is known to be miscalibrated in some settings." & Report ECE with and without EDL (Table~\ref{tab:rq6}) and compare against temperature-scaled softmax and deep ensembles; do not claim EDL is uniformly superior. \\
-6 & "Leakage claim about prior work is unsubstantiated." & Never assert that a specific paper leaked. Assert that its \emph{stated} split procedure cannot rule leakage out, quote the procedure verbatim, and demonstrate the effect on the same public data. \\
-7 & "Field dataset annotation quality is unclear." & $\kappa$, adjudication rate, \texttt{lab\_confirmed} fraction, annotator qualifications. \\
-8 & "Edge numbers depend on the device." & Two devices, both fully specified, median and p95, with the measurement script released. \\
-9 & "No comparison with object detection / segmentation approaches." & Scope statement in \S\ref{sec:intro}: classification of a leaf-centred image is the deployment modality; detection is future work. Justify, do not ignore. \\
-10 & "Statistical tests are missing / inappropriate." & \S\ref{sec:stats} pre-specifies test, correction and effect size per family. \\
-11 & "Results are not reproducible." & App.~\ref{app:repro}, released splits with hashes, \texttt{make reproduce}. \\
-12 & "Practical impact is speculative." & \S\ref{sec:discussion} cost matrix and referral workload; prospective trial named as future work rather than implied. \\
-\bottomrule
-\end{tabularx}}
-
-% ==================================================================
-\section{Execution Plan}
-\label{sec:exec}
-\vspace{-2pt}
-{\footnotesize\emph{Not for submission --- your working schedule. Ordered so that the paper's central claim (RQ2) is testable in week 3; if it does not hold on your data, you learn that before investing in the architecture.}
-
-\begin{tabularx}{\textwidth}{@{}p{1.5cm} X p{4.3cm}@{}}
-\toprule
-\rowcolor{hdrgray}
-Week & Task & Deliverable / gate \\
-\midrule
-1 & Acquire D1--D5; verify licences and DOIs; build the unified loader and label mapping. & \texttt{data/} + \texttt{DATASETS.md} with verified links \\
-2 & Implement Alg.~\ref{alg:leak}; compute $\rho$ for random splits on every source; calibrate $\theta_e$ on hand-labelled pairs. & \textbf{Gate: is $\rho$ large?} If yes, the paper has its result. \\
-3 & Train ResNet-50 + EfficientNet-B0 under S1 and S2. & Table~\ref{tab:rq2} filled --- the headline \\
-4 & Segmentation + Clever-Hans probe on all sources. & Table~\ref{tab:rq3} filled \\
-5--6 & Field collection (D6): $\geq$3 districts, $\geq$3 devices, dual annotation, $\kappa$. & Dataset + metadata CSV \\
-7 & Expert lesion masks on the XAI subset. & Masks for App.~\ref{app:perclass}/XAI \\
-8 & Implement PapayaFormer; MSLA and evidential head unit-tested. & Passing tests, overfit-on-10-images sanity check \\
-9 & Full baseline sweep, 5 seeds $\times$ 5 folds. & Table~\ref{tab:rq1} \\
-10 & Ablations, corruption suite, cross-source, low-data. & Tables~\ref{tab:rq4},~\ref{tab:ablation}, Figs.~\ref{fig:corrupt},~\ref{fig:lowdata} \\
-11 & Open-set, calibration, selective prediction. & Tables~\ref{tab:rq5},~\ref{tab:rq6} \\
-12 & XAI evaluation incl.\ sanity checks. & Table~\ref{tab:rq8}, Fig.~\ref{fig:xai} \\
-13 & Edge export, quantisation, on-device measurement. & Table~\ref{tab:rq9} \\
-14 & Statistics, CIs, corrections, all figures final. & Camera-ready figures \\
-15 & Write Discussion/Conclusion; complete checklist; Zenodo deposit. & DOI minted \\
-16 & Internal review against App.~\ref{app:reviewers}; language pass; submit. & Submission \\
-\bottomrule
-\end{tabularx}
-
-\vspace{7pt}
-\noindent\textbf{Venue targets.} Verify current scope, impact factor and APC before choosing --- these change annually.\\[3pt]
-\begin{tabularx}{\textwidth}{@{}p{5.2cm} p{2.0cm} X@{}}
-\toprule
-\rowcolor{hdrgray}
-Venue & Type & Fit note \\
-\midrule
-Computers and Electronics in Agriculture (Elsevier) & Q1, APC/hybrid & Strongest fit: agricultural ML with field validation; expects agronomic depth \\
-Smart Agricultural Technology (Elsevier) & Q1/Q2, OA & Deployment- and edge-oriented; good fit for the RQ9 material \\
-Frontiers in Plant Science --- Technical Advances & Q1, OA & Precedent set by \cite{mohanty2016}; receptive to the correction narrative \\
-IEEE Access & Q1/Q2, OA & Fast, tolerant of a broad benchmark contribution; lower prestige \\
-Scientific Reports (Nature) & Q1, OA & Methodology-correction framing travels well \\
-Plant Methods (BMC) & Q1, OA & Strong fit for the protocol/benchmark contribution specifically \\
-Ecological Informatics / Artificial Intelligence in Agriculture & Q1/Q2 & Reasonable alternates \\
-\bottomrule
-\end{tabularx}
-
-\vspace{7pt}
-\noindent\textbf{Before you submit --- non-negotiables.}
-\begin{enumerate}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
-\item Every \TBD\ replaced by a number you produced, or the row deleted. Never estimate a result.
-\item Every \VER\ resolved against the primary source. Never cite a DOI you have not opened.
-\item Every citation in the bibliography read by you, at least in abstract and method. Fabricated or mis-attributed citations end careers, and reviewers in this field do check.
-\item The claim about prior work stated as "the reported procedure does not exclude leakage", never as "they leaked".
-\item Data and code deposited and the link live \emph{before} submission, not promised.
-\end{enumerate}}
 
 \end{document}
