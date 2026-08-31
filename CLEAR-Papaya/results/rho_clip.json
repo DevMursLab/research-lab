@@ -1,0 +1,38 @@
+{
+  "0.90": {
+    "rho_mean": 0.8975,
+    "rho_std": 0.0103,
+    "n_groups": 611,
+    "largest": 3218
+  },
+  "0.92": {
+    "rho_mean": 0.8007,
+    "rho_std": 0.0129,
+    "n_groups": 1118,
+    "largest": 1577
+  },
+  "0.94": {
+    "rho_mean": 0.5982,
+    "rho_std": 0.0107,
+    "n_groups": 2191,
+    "largest": 787
+  },
+  "0.95": {
+    "rho_mean": 0.4578,
+    "rho_std": 0.014,
+    "n_groups": 2919,
+    "largest": 438
+  },
+  "0.96": {
+    "rho_mean": 0.3554,
+    "rho_std": 0.0118,
+    "n_groups": 3407,
+    "largest": 108
+  },
+  "0.97": {
+    "rho_mean": 0.2923,
+    "rho_std": 0.0132,
+    "n_groups": 3704,
+    "largest": 32
+  }
+}

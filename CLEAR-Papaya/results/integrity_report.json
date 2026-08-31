@@ -1,0 +1,51 @@
+{
+  "D1": {
+    "path": "data\\D1",
+    "n_files": 3626,
+    "n_ok": 3626,
+    "n_bad": 0,
+    "bad_files": {}
+  },
+  "D1_zip": {
+    "path": "data\\D1_zip",
+    "n_files": 0,
+    "n_ok": 0,
+    "n_bad": 0,
+    "bad_files": {}
+  },
+  "D2": {
+    "path": "data\\D2",
+    "n_files": 2159,
+    "n_ok": 2159,
+    "n_bad": 0,
+    "bad_files": {}
+  },
+  "D2_zip": {
+    "path": "data\\D2_zip",
+    "n_files": 0,
+    "n_ok": 0,
+    "n_bad": 0,
+    "bad_files": {}
+  },
+  "D3": {
+    "path": "data\\D3",
+    "n_files": 1079,
+    "n_ok": 1079,
+    "n_bad": 0,
+    "bad_files": {}
+  },
+  "D3_zip": {
+    "path": "data\\D3_zip",
+    "n_files": 0,
+    "n_ok": 0,
+    "n_bad": 0,
+    "bad_files": {}
+  },
+  "D6": {
+    "path": "data\\D6",
+    "n_files": 0,
+    "n_ok": 0,
+    "n_bad": 0,
+    "bad_files": {}
+  }
+}

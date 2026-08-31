@@ -1,0 +1,626 @@
+{
+  "ALL/ALL": {
+    "n": 6864,
+    "width": {
+      "min": 101,
+      "median": 640,
+      "max": 2833
+    },
+    "height": {
+      "min": 129,
+      "median": 480,
+      "max": 3737
+    },
+    "aspect_ratio": {
+      "min": 0.37,
+      "median": 1.333,
+      "max": 1.371
+    },
+    "file_kb": {
+      "min": 9.4,
+      "median": 126.9,
+      "p95": 12985.2,
+      "max": 54587.5
+    }
+  },
+  "ALL/UNMAPPED": {
+    "n": 155,
+    "width": {
+      "min": 181,
+      "median": 1300,
+      "max": 2221
+    },
+    "height": {
+      "min": 331,
+      "median": 2472,
+      "max": 3445
+    },
+    "aspect_ratio": {
+      "min": 0.37,
+      "median": 0.559,
+      "max": 0.873
+    },
+    "file_kb": {
+      "min": 200.7,
+      "median": 20180.9,
+      "p95": 34203.2,
+      "max": 37366.2
+    }
+  },
+  "ALL/anthracnose": {
+    "n": 775,
+    "width": {
+      "min": 139,
+      "median": 640,
+      "max": 2500
+    },
+    "height": {
+      "min": 239,
+      "median": 480,
+      "max": 3400
+    },
+    "aspect_ratio": {
+      "min": 0.379,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 37.6,
+      "median": 175.5,
+      "p95": 16365.0,
+      "max": 38065.3
+    }
+  },
+  "ALL/bacterial_leaf_spot": {
+    "n": 842,
+    "width": {
+      "min": 103,
+      "median": 640,
+      "max": 2321
+    },
+    "height": {
+      "min": 176,
+      "median": 480,
+      "max": 2783
+    },
+    "aspect_ratio": {
+      "min": 0.373,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 10.5,
+      "median": 115.3,
+      "p95": 6256.6,
+      "max": 36420.8
+    }
+  },
+  "ALL/healthy": {
+    "n": 966,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 2833
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 2424
+    },
+    "aspect_ratio": {
+      "min": 0.733,
+      "median": 1.333,
+      "max": 1.371
+    },
+    "file_kb": {
+      "min": 10.5,
+      "median": 165.5,
+      "p95": 545.5,
+      "max": 683.8
+    }
+  },
+  "ALL/mite_or_deficiency": {
+    "n": 734,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 10.5,
+      "median": 144.3,
+      "p95": 396.9,
+      "max": 576.1
+    }
+  },
+  "ALL/powdery_mildew": {
+    "n": 155,
+    "width": {
+      "min": 101,
+      "median": 1120,
+      "max": 2500
+    },
+    "height": {
+      "min": 129,
+      "median": 2130,
+      "max": 3737
+    },
+    "aspect_ratio": {
+      "min": 0.401,
+      "median": 0.547,
+      "max": 0.982
+    },
+    "file_kb": {
+      "min": 43.9,
+      "median": 12005.4,
+      "p95": 48803.1,
+      "max": 54587.5
+    }
+  },
+  "ALL/prsv": {
+    "n": 3237,
+    "width": {
+      "min": 186,
+      "median": 640,
+      "max": 2135
+    },
+    "height": {
+      "min": 280,
+      "median": 480,
+      "max": 3437
+    },
+    "aspect_ratio": {
+      "min": 0.437,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 9.4,
+      "median": 108.2,
+      "p95": 2549.4,
+      "max": 35757.4
+    }
+  },
+  "D1/ALL": {
+    "n": 3626,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 9.4,
+      "median": 158.3,
+      "p95": 398.6,
+      "max": 683.8
+    }
+  },
+  "D1/anthracnose": {
+    "n": 230,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 79.2,
+      "median": 199.7,
+      "p95": 388.4,
+      "max": 512.3
+    }
+  },
+  "D1/bacterial_leaf_spot": {
+    "n": 214,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 10.5,
+      "median": 53.2,
+      "p95": 316.4,
+      "max": 393.8
+    }
+  },
+  "D1/healthy": {
+    "n": 594,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 10.5,
+      "median": 255.8,
+      "p95": 488.0,
+      "max": 683.8
+    }
+  },
+  "D1/mite_or_deficiency": {
+    "n": 734,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 10.5,
+      "median": 144.3,
+      "p95": 396.9,
+      "max": 576.1
+    }
+  },
+  "D1/prsv": {
+    "n": 1854,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 9.4,
+      "median": 139.9,
+      "p95": 374.0,
+      "max": 656.2
+    }
+  },
+  "D2/ALL": {
+    "n": 2159,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 55.4,
+      "median": 106.3,
+      "p95": 168.9,
+      "max": 241.2
+    }
+  },
+  "D2/anthracnose": {
+    "n": 355,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 65.2,
+      "median": 151.0,
+      "p95": 195.4,
+      "max": 241.2
+    }
+  },
+  "D2/bacterial_leaf_spot": {
+    "n": 458,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 65.2,
+      "median": 109.8,
+      "p95": 131.3,
+      "max": 151.9
+    }
+  },
+  "D2/healthy": {
+    "n": 228,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 63.4,
+      "median": 109.1,
+      "p95": 144.2,
+      "max": 208.5
+    }
+  },
+  "D2/prsv": {
+    "n": 1118,
+    "width": {
+      "min": 640,
+      "median": 640,
+      "max": 640
+    },
+    "height": {
+      "min": 480,
+      "median": 480,
+      "max": 480
+    },
+    "aspect_ratio": {
+      "min": 1.333,
+      "median": 1.333,
+      "max": 1.333
+    },
+    "file_kb": {
+      "min": 55.4,
+      "median": 98.5,
+      "p95": 124.6,
+      "max": 137.1
+    }
+  },
+  "D3/ALL": {
+    "n": 1079,
+    "width": {
+      "min": 101,
+      "median": 1110,
+      "max": 2833
+    },
+    "height": {
+      "min": 129,
+      "median": 1944,
+      "max": 3737
+    },
+    "aspect_ratio": {
+      "min": 0.37,
+      "median": 0.648,
+      "max": 1.371
+    },
+    "file_kb": {
+      "min": 37.6,
+      "median": 1152.1,
+      "p95": 36218.0,
+      "max": 54587.5
+    }
+  },
+  "D3/UNMAPPED": {
+    "n": 155,
+    "width": {
+      "min": 181,
+      "median": 1300,
+      "max": 2221
+    },
+    "height": {
+      "min": 331,
+      "median": 2472,
+      "max": 3445
+    },
+    "aspect_ratio": {
+      "min": 0.37,
+      "median": 0.559,
+      "max": 0.873
+    },
+    "file_kb": {
+      "min": 200.7,
+      "median": 20180.9,
+      "p95": 34203.2,
+      "max": 37366.2
+    }
+  },
+  "D3/anthracnose": {
+    "n": 190,
+    "width": {
+      "min": 139,
+      "median": 277,
+      "max": 2500
+    },
+    "height": {
+      "min": 239,
+      "median": 441,
+      "max": 3400
+    },
+    "aspect_ratio": {
+      "min": 0.379,
+      "median": 0.649,
+      "max": 0.931
+    },
+    "file_kb": {
+      "min": 37.6,
+      "median": 358.4,
+      "p95": 35246.7,
+      "max": 38065.3
+    }
+  },
+  "D3/bacterial_leaf_spot": {
+    "n": 170,
+    "width": {
+      "min": 103,
+      "median": 383,
+      "max": 2321
+    },
+    "height": {
+      "min": 176,
+      "median": 573,
+      "max": 2783
+    },
+    "aspect_ratio": {
+      "min": 0.373,
+      "median": 0.629,
+      "max": 0.847
+    },
+    "file_kb": {
+      "min": 59.8,
+      "median": 895.6,
+      "p95": 16638.5,
+      "max": 36420.8
+    }
+  },
+  "D3/healthy": {
+    "n": 144,
+    "width": {
+      "min": 1424,
+      "median": 1814,
+      "max": 2833
+    },
+    "height": {
+      "min": 1873,
+      "median": 2062,
+      "max": 2424
+    },
+    "aspect_ratio": {
+      "min": 0.733,
+      "median": 0.823,
+      "max": 1.371
+    },
+    "file_kb": {
+      "min": 286.2,
+      "median": 404.4,
+      "p95": 636.0,
+      "max": 644.8
+    }
+  },
+  "D3/powdery_mildew": {
+    "n": 155,
+    "width": {
+      "min": 101,
+      "median": 1120,
+      "max": 2500
+    },
+    "height": {
+      "min": 129,
+      "median": 2130,
+      "max": 3737
+    },
+    "aspect_ratio": {
+      "min": 0.401,
+      "median": 0.547,
+      "max": 0.982
+    },
+    "file_kb": {
+      "min": 43.9,
+      "median": 12005.4,
+      "p95": 48803.1,
+      "max": 54587.5
+    }
+  },
+  "D3/prsv": {
+    "n": 265,
+    "width": {
+      "min": 186,
+      "median": 1128,
+      "max": 2135
+    },
+    "height": {
+      "min": 280,
+      "median": 1505,
+      "max": 3437
+    },
+    "aspect_ratio": {
+      "min": 0.437,
+      "median": 0.688,
+      "max": 0.923
+    },
+    "file_kb": {
+      "min": 158.3,
+      "median": 10223.4,
+      "p95": 29923.3,
+      "max": 35757.4
+    }
+  }
+}

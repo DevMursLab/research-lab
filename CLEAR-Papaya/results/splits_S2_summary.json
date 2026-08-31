@@ -1,0 +1,60 @@
+{
+  "n_folds": 5,
+  "n_images": 6864,
+  "groups_spanning_multiple_folds": 0,
+  "per_fold_rho": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0,
+    "4": 0.0
+  },
+  "all_folds_rho_zero": true,
+  "per_fold_class_counts": {
+    "0": {
+      "UNMAPPED": 30,
+      "anthracnose": 155,
+      "bacterial_leaf_spot": 168,
+      "healthy": 390,
+      "mite_or_deficiency": 146,
+      "powdery_mildew": 30,
+      "prsv": 647
+    },
+    "1": {
+      "UNMAPPED": 30,
+      "anthracnose": 155,
+      "bacterial_leaf_spot": 169,
+      "healthy": 144,
+      "mite_or_deficiency": 148,
+      "powdery_mildew": 30,
+      "prsv": 648
+    },
+    "2": {
+      "UNMAPPED": 31,
+      "anthracnose": 155,
+      "bacterial_leaf_spot": 169,
+      "healthy": 144,
+      "mite_or_deficiency": 148,
+      "powdery_mildew": 30,
+      "prsv": 647
+    },
+    "3": {
+      "UNMAPPED": 33,
+      "anthracnose": 155,
+      "bacterial_leaf_spot": 168,
+      "healthy": 144,
+      "mite_or_deficiency": 146,
+      "powdery_mildew": 35,
+      "prsv": 647
+    },
+    "4": {
+      "UNMAPPED": 31,
+      "anthracnose": 155,
+      "bacterial_leaf_spot": 168,
+      "healthy": 144,
+      "mite_or_deficiency": 146,
+      "powdery_mildew": 30,
+      "prsv": 648
+    }
+  }
+}

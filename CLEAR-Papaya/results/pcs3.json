@@ -1,0 +1,138 @@
+{
+  "per_class": {
+    "PapayaFormer": [
+      {
+        "class": "anthracnose",
+        "precision": 0.951048951048951,
+        "recall": 0.8947368421052632,
+        "f1": 0.9220338983050848,
+        "support": 152,
+        "auroc": 0.95616373902133
+      },
+      {
+        "class": "bacterial_leaf_spot",
+        "precision": 0.6830601092896175,
+        "recall": 0.946969696969697,
+        "f1": 0.7936507936507936,
+        "support": 132,
+        "auroc": 0.9706705982715775
+      },
+      {
+        "class": "healthy",
+        "precision": 0.8829787234042553,
+        "recall": 0.7477477477477478,
+        "f1": 0.8097560975609757,
+        "support": 111,
+        "auroc": 0.9815949601152465
+      },
+      {
+        "class": "mite_or_deficiency",
+        "precision": 0.8780487804878049,
+        "recall": 0.9113924050632911,
+        "f1": 0.8944099378881988,
+        "support": 79,
+        "auroc": 0.9839516950385567
+      },
+      {
+        "class": "powdery_mildew",
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1": 0.9090909090909091,
+        "support": 30,
+        "auroc": 1.0
+      },
+      {
+        "class": "prsv",
+        "precision": 0.9123222748815166,
+        "recall": 0.8651685393258427,
+        "f1": 0.8881199538638985,
+        "support": 445,
+        "auroc": 0.9715422685928303
+      }
+    ],
+    "MobileViT-S": [
+      {
+        "class": "anthracnose",
+        "precision": 0.94,
+        "recall": 0.9276315789473685,
+        "f1": 0.9337748344370861,
+        "support": 152,
+        "auroc": 0.9885136696823615
+      },
+      {
+        "class": "bacterial_leaf_spot",
+        "precision": 0.6983240223463687,
+        "recall": 0.946969696969697,
+        "f1": 0.8038585209003215,
+        "support": 132,
+        "auroc": 0.9712733207225253
+      },
+      {
+        "class": "healthy",
+        "precision": 0.8507462686567164,
+        "recall": 0.5135135135135135,
+        "f1": 0.6404494382022472,
+        "support": 111,
+        "auroc": 0.9725967017136469
+      },
+      {
+        "class": "mite_or_deficiency",
+        "precision": 0.9012345679012346,
+        "recall": 0.9240506329113924,
+        "f1": 0.9125,
+        "support": 79,
+        "auroc": 0.995707842281391
+      },
+      {
+        "class": "powdery_mildew",
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1": 0.9090909090909091,
+        "support": 30,
+        "auroc": 0.9990932172651432
+      },
+      {
+        "class": "prsv",
+        "precision": 0.8478747203579419,
+        "recall": 0.851685393258427,
+        "f1": 0.8497757847533632,
+        "support": 445,
+        "auroc": 0.9553393080078473
+      }
+    ]
+  },
+  "s3": {
+    "d3_class_counts": [
+      190,
+      170,
+      144,
+      0,
+      155,
+      265
+    ],
+    "PapayaFormer": {
+      "acc": 0.05519480519480519,
+      "macro_f1": 0.040219663479661424,
+      "per_class_f1": {
+        "anthracnose": 0.0,
+        "bacterial_leaf_spot": 0.12323943661971831,
+        "healthy": 0.0,
+        "mite_or_deficiency": 0.0,
+        "powdery_mildew": 0.0,
+        "prsv": 0.07785888077858881
+      }
+    },
+    "MobileViT-S": {
+      "acc": 0.1396103896103896,
+      "macro_f1": 0.11340843106654637,
+      "per_class_f1": {
+        "anthracnose": 0.24573378839590443,
+        "bacterial_leaf_spot": 0.3440366972477064,
+        "healthy": 0.0,
+        "mite_or_deficiency": 0.0,
+        "powdery_mildew": 0.0,
+        "prsv": 0.0906801007556675
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+# data & large artefacts
+data/D1/
+data/D2/
+data/D3/
+data/**/*.jpg
+data/**/*.png
+*.npy
+*.zip
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+# kaggle output scratch
+k*/_*.txt
