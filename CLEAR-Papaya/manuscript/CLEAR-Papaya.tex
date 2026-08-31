@@ -155,7 +155,8 @@ ECE / MCE & Expected / Maximum Calibration Error \\
 MCC & Matthews Correlation Coefficient \\
 AURC & Area Under the Risk--Coverage curve \\
 FPR@95 & False positive rate at 95\% true positive rate \\
-PRSV & Papaya Ringspot Virus \\
+PRSV & Papaya ringspot virus \
+ PaLCuV & Papaya leaf curl virus (begomovirus) \\
 OOD & Out-of-distribution \\
 GSKF & Group-Stratified $k$-Fold \\
 \bottomrule
@@ -336,7 +337,7 @@ We adopt a six-class closed set plus a two-class open set (Table~\ref{tab:classe
 ID & Class & Defining foliar signature \\
 \midrule
 $c_1$ & Healthy & Uniform lamina, intact margins, no chlorosis \\
-$c_2$ & Papaya Ringspot Virus & Mosaic mottling, vein-clearing, leaf distortion, shoestring lamina \\
+$c_2$ & Viral complex (PRSV / leaf curl) & Mosaic mottling, vein-clearing, ringspotting, and leaf distortion / curling / shoestring lamina --- see the merge rationale below \\
 $c_3$ & Anthracnose & Water-soaked spots enlarging to sunken necrotic lesions, dark margins \\
 $c_4$ & Powdery mildew & Superficial white--grey mycelial coating, adaxial surface \\
 $c_5$ & Bacterial leaf spot & Small angular translucent lesions, vein-delimited, chlorotic halo \\
@@ -347,6 +348,8 @@ $c_8^{\text{open}}$ & Non-papaya leaf & Any other species (drawn from D4/D5) \\
 \bottomrule
 \end{tabularx}}
 \end{table}
+
+\paragraph{Rationale for the $c_2$ merge.} The three source corpora label \emph{mosaic}, \emph{ring spot}, and \emph{leaf curl} as separate classes. We merge them into a single viral-complex class for a modality-driven reason. Mosaic mottling and ringspotting are the two canonical foliar expressions of \emph{Papaya ringspot virus} (PRSV, genus \emph{Potyvirus}), which also induces leaf distortion and shoestring lamina at later stages \cite{prsv_review}; separating ``mosaic'' from ``ring spot'' as distinct diseases is not defensible. ``Leaf curl'' is the harder case: in papaya it can be an advanced PRSV symptom \emph{or} a distinct begomovirus infection (\emph{Papaya leaf curl virus} / \emph{Croton yellow vein mosaic virus}, whitefly-transmitted geminiviruses) \cite{palcuv}. The two cannot be reliably separated from an RGB leaf photograph without serological or molecular confirmation, which none of the source datasets provide. Forcing a distinction the input modality cannot support would inject label noise; we therefore report a single ``viral complex'' class and state explicitly that it does not resolve PRSV from begomovirus aetiology. A pathology-annotated re-split that separates the two, given serology, is identified as future work (Section~\ref{sec:threats}). Leaf curl accounts for $923$ of the $2{,}209$ raw $c_2$ images ($42\%$), so this choice is material and is flagged rather than buried.
 
 \subsection{Field collection protocol (D6)}
 \label{sec:fieldproto}
@@ -373,7 +376,7 @@ The curated field subset is what converts this from a re-analysis into a contrib
 \rowcolor{hdrgray}
 Class & D1 & D2 & D3 & Total & \% \\
 \midrule
-PRSV complex & 826 & 1{,}118 & 265 & 2{,}209 & 47.1 \\
+Viral complex (PRSV/curl) & 826 & 1{,}118 & 265 & 2{,}209 & 47.1 \\
 Bacterial leaf spot & 107 & 458 & 170 & 735 & 15.7 \\
 Anthracnose & 92 & 355 & 190 & 637 & 13.6 \\
 Healthy & 243 & 228 & 144 & 615 & 13.1 \\
@@ -1216,6 +1219,9 @@ Future work: (i) multi-label co-infection and severity regression; (ii) few-shot
 \bibitem{sam2023} A.~Kirillov \emph{et al.}, "Segment Anything," in \emph{Proc.\ IEEE/CVF ICCV}, 2023, pp.~4015--4026.
 \bibitem{dinov2} M.~Oquab \emph{et al.}, "DINOv2: Learning robust visual features without supervision," \emph{Transactions on Machine Learning Research}, 2024.
 \bibitem{clip2021} A.~Radford \emph{et al.}, "Learning transferable visual models from natural language supervision," in \emph{Proc.\ ICML}, 2021, pp.~8748--8763.
+% --- plant-pathology references for the c2 merge; verify at source ---
+\bibitem{prsv_review} R.~Tripathi, J.~Hallan, and R.~K. Gaur, "Papaya ringspot virus: a review," \emph{Journal of Plant Pathology}, 2020. \emph{[Verify exact volume/pages; any standard PRSV symptomatology review is acceptable here.]}
+\bibitem{palcuv} V.~G. Malathi and P.~V. Reddy, "Papaya leaf curl and associated begomoviruses: a review," \emph{Indian Phytopathology / Virusdisease}, 2019. \emph{[Verify; substitute a current begomovirus-in-papaya review.]}
 
 \end{thebibliography}
 }
@@ -1301,7 +1307,7 @@ Seeds & --- & $\{0,1,2\}$; 5 group-disjoint folds per seed \\
 Class & Precision & Recall & $F_1$ & Support & AUROC & $F_1$ (S3) & $F_1$ (INT8) & $\Delta$ INT8 \\
 \midrule
 Healthy & $0.883$ & $0.748$ & $0.810$ & $111$ & $0.982$ & $0.00$ & \VER & \VER \\
-PRSV complex & $0.912$ & $0.865$ & $0.888$ & $445$ & $0.972$ & $0.08$ & \VER & \VER \\
+Viral complex ($c_2$) & $0.912$ & $0.865$ & $0.888$ & $445$ & $0.972$ & $0.08$ & \VER & \VER \\
 Anthracnose & $0.951$ & $0.895$ & $0.922$ & $152$ & $0.956$ & $0.00$ & \VER & \VER \\
 Powdery mildew & $1.000$ & $0.833$ & $0.909$ & $30$ & $1.000$ & $0.00$\textsuperscript{b} & \VER & \VER \\
 Bacterial leaf spot & $0.683$ & $0.947$ & $0.794$ & $132$ & $0.971$ & $0.12$ & \VER & \VER \\
