@@ -16,6 +16,7 @@
 ![protocol](https://img.shields.io/badge/protocol-group--disjoint%20(%CF%81%3D0)-1f6f3b?style=for-the-badge)
 ![models](https://img.shields.io/badge/architectures%20benchmarked-11-d9a441?style=for-the-badge)
 ![license](https://img.shields.io/badge/data-CC%20BY%204.0-8a8a8a?style=for-the-badge)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.22223938-1f6f3b?style=for-the-badge)](https://doi.org/10.5281/zenodo.22223938)
 
 </div>
 
@@ -174,6 +175,15 @@ All CC BY 4.0. Placement instructions in [`data/README.md`](data/README.md).
 ## 📝 Citation
 
 ```bibtex
+@software{clearpapaya_code,
+  author    = {Hawlader, Mursalin},
+  title     = {CLEAR-Papaya: a leakage-audited papaya leaf disease benchmark},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.22223938},
+  url       = {https://github.com/DevMursLab/research-lab}
+}
+
 @article{clearpapaya2026,
   title   = {CLEAR-Papaya: A Leakage-Audited, Calibration-Aware and Edge-Deployable
              Framework for Papaya Leaf Disease Recognition under Field-Realistic
