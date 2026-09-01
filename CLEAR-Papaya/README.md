@@ -39,7 +39,7 @@
 | **S2** — group‑disjoint (ρ = 0) | 82.0 % | 77.0 % | 86.0 % | 86.8 % |
 | **inflation** | **+11.0** | **+12.3** | **+8.2** | **+6.1** |
 
-<sub>as‑distributed corpus · full numbers, 3 seeds × 5 folds, in [`results/`](results/)</sub>
+<sub>as‑distributed corpus · full numbers, 5 seeds × 5 folds, in [`results/`](results/)</sub>
 
 </div>
 
@@ -88,8 +88,8 @@ CLEAR-Papaya/
 <td><code>sig_results.md</code></td></tr>
 
 <tr><td><b>PapayaFormer</b><br>MSLA + evidential head</td>
-<td>S2 <b>87.2 ± 4.7 %</b> — significantly &gt; ResNet‑50 &amp; EfficientNet‑B0 (p<sub>Holm</sub>&lt;10⁻³),
-tied with MobileViT‑S; lowest Brier; 16.8 M params</td>
+<td>S2 <b>87.3 ± 4.3 %</b> — significantly &gt; ResNet‑50 &amp; EfficientNet‑B0 (p<sub>Holm</sub>&lt;10⁻³),
+tied with MobileViT‑S; lowest Brier; 16.8 M params (25 runs)</td>
 <td><code>sig_results.md</code><br><code>ablation.md</code></td></tr>
 
 <tr><td><b>Selective prediction</b></td>
