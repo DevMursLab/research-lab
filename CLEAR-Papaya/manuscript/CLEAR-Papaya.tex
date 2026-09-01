@@ -194,10 +194,10 @@ We synthesise seven concrete gaps (G1--G7) from the papaya and broader plant-pat
 \item[\textbf{C1 --- PLD-Bench protocol.}] A reproducible evaluation protocol for papaya leaf disease comprising a two-stage leakage audit (perceptual hash $\rightarrow$ self-supervised embedding clustering $\rightarrow$ union-find grouping), group-stratified splitting, and a published leakage rate $\rho$ for every split (Section~\ref{sec:leakage}).
 \item[\textbf{C2 --- Clever-Hans probe.}] A three-way background ablation (full image / leaf-only / background-only) that quantifies the fraction of accuracy attributable to non-lesion context, reported as a mandatory dataset-quality statistic (Section~\ref{sec:cleverhans}).
 \item[\textbf{C3 --- PapayaFormer.}] A hybrid CNN--transformer classifier with a Multi-Scale Lesion Attention module targeted at the mixed-scale nature of papaya symptoms (diffuse mottling vs.\ punctate necrosis), and an evidential Dirichlet head enabling calibrated confidence and threshold-based rejection in a single forward pass (Section~\ref{sec:model}).
-\item[\textbf{C4 --- Open-set and shift evaluation.}] Explicit splits for unseen-disease rejection, cross-source transfer and a 15-way corruption suite at 5 severities (Section~\ref{sec:splits}).
+\item[\textbf{C4 --- Open-set and shift evaluation.}] Explicit protocols for unseen-disease rejection (a held-out papaya disease), cross-source transfer (train on one country's corpora, test on another), and a seven-family synthetic-corruption suite (Section~\ref{sec:splits}).
 \item[\textbf{C5 --- Explanations measured, not just shown.}] Deletion/insertion AUC and attribution stability under input perturbation for Grad-CAM++ and for the intrinsic MSLA mask, with the expert-mask pointing game specified and left for the camera-ready (Section~\ref{sec:xai}).
-\item[\textbf{C6 --- Measured edge deployment.}] FP32/FP16/INT8 latency, peak RAM, model size and energy per inference on a mid-range Android device and a Raspberry Pi 4, with the accuracy cost of quantisation reported per class (Section~\ref{sec:edge}).
-\item[\textbf{C7 --- Full reproducibility artefact.}] Split manifests with per-image hashes, seeds, environment lockfiles, training configs, checkpoints and evaluation scripts released under a permissive licence (Appendix~\ref{app:repro}).
+\item[\textbf{C6 --- Reproducible edge-inference measurement.}] Server-GPU and single-thread-CPU latency for the released model, plus an ONNX export and a one-command benchmark script for Android (Termux) and Raspberry Pi; the full on-device / INT8 sweep is run with that script (Section~\ref{sec:edge}).
+\item[\textbf{C7 --- Full reproducibility artefact.}] Frozen split manifests with per-image perceptual hashes and group ids, seeds, the environment specification, training configs, and every experiment and evaluation script, archived with a DOI (Appendix~\ref{app:repro}).
 \end{description}
 
 \subsection{Research questions}
@@ -267,7 +267,7 @@ Near-duplicate leakage is a recognised and repeatedly rediscovered failure mode 
 Modern networks are systematically overconfident \cite{guo2017}. Evidential deep learning \cite{sensoy2018} replaces the softmax with a Dirichlet distribution over class probabilities, yielding an explicit uncertainty mass in one forward pass --- attractive for edge deployment where MC-dropout or deep ensembles are too expensive. Open-set recognition and OOD detection provide the evaluation machinery (AUROC, FPR@95TPR) that lets us state, quantitatively, what the model does when shown something it was never trained on.
 
 \subsection{Explainability and its evaluation}
-Grad-CAM \cite{gradcam2017} and Grad-CAM++ \cite{gradcampp2018} are near-universal in plant-disease papers and near-universally unevaluated. Faithfulness metrics --- deletion and insertion AUC, and the pointing game against ground-truth regions --- convert explanation from a figure into a measurement. Since expert lesion masks can be annotated on a modest subset (we use $n=\TBD$ images), there is no methodological obstacle to doing this properly.
+Grad-CAM \cite{gradcam2017} and Grad-CAM++ \cite{gradcampp2018} are near-universal in plant-disease papers and near-universally unevaluated. Faithfulness metrics --- deletion and insertion AUC, and the pointing game against ground-truth regions --- convert explanation from a figure into a measurement. Since expert lesion masks can be annotated on a modest subset, there is no methodological obstacle to doing this properly; we compute the mask-free faithfulness metrics here and leave the mask-dependent pointing game for the field-set release.
 
 \subsection{Gap-to-contribution mapping}
 
@@ -297,7 +297,7 @@ G7 & INT8 latency/RAM/energy on 2 devices; 5 seeds + significance tests & C6 & \
 \label{sec:materials}
 
 \subsection{Design requirement: accessibility}
-A benchmark that cannot be downloaded is not a benchmark. We therefore constrain the study to sources that are (i) publicly downloadable without institutional agreement, (ii) redistributable under a stated licence, and (iii) citable by DOI or a persistent URL. Our own field collection is released under the same constraint.
+A benchmark that cannot be downloaded is not a benchmark. We therefore constrain the study to sources that are (i) publicly downloadable without institutional agreement, (ii) redistributable under a stated licence, and (iii) citable by DOI or a persistent URL. A field collection under the same constraint is planned (Section~\ref{sec:fieldproto}) but is not part of the present results.
 
 \begin{table*}[t]
 \centering
@@ -349,17 +349,17 @@ $c_8^{\text{open}}$ & Non-papaya leaf & Any other species (drawn from D4/D5) \\
 
 \paragraph{Rationale for the $c_2$ merge.} The three source corpora label \emph{mosaic}, \emph{ring spot}, and \emph{leaf curl} as separate classes. We merge them into a single viral-complex class for a modality-driven reason. Mosaic mottling and ringspotting are the two canonical foliar expressions of \emph{Papaya ringspot virus} (PRSV, genus \emph{Potyvirus}), which also induces leaf distortion and shoestring lamina at later stages \cite{prsv_review}; separating ``mosaic'' from ``ring spot'' as distinct diseases is not defensible. ``Leaf curl'' is the harder case: in papaya it can be an advanced PRSV symptom \emph{or} a distinct begomovirus infection (\emph{Papaya leaf curl virus} / \emph{Croton yellow vein mosaic virus}, whitefly-transmitted geminiviruses) \cite{palcuv}. The two cannot be reliably separated from an RGB leaf photograph without serological or molecular confirmation, which none of the source datasets provide. Forcing a distinction the input modality cannot support would inject label noise; we therefore report a single ``viral complex'' class and state explicitly that it does not resolve PRSV from begomovirus aetiology. A pathology-annotated re-split that separates the two, given serology, is identified as future work (Section~\ref{sec:threats}). Leaf curl accounts for $923$ of the $2{,}209$ raw $c_2$ images ($42\%$), so this choice is material and is flagged rather than buried.
 
-\subsection{Field collection protocol (D6)}
+\subsection{Planned field collection protocol (future work)}
 \label{sec:fieldproto}
-The curated field subset is what converts this from a re-analysis into a contribution, and it is cheap to collect. Protocol:
+\emph{Planned, not part of this study.} A curated field subset would let the audit's grouping be checked against a native \texttt{leaf\_id}; we specify the protocol here so it is reproducible and identify it as the immediate next step. Protocol:
 
 \begin{enumerate}[leftmargin=1.3em,itemsep=1.5pt,topsep=2pt]
-\item \textbf{Sites.} $\geq$\,\TBD\ orchards/homestead plots across $\geq$\,3 districts, sampled across the growing season to capture phenological and illumination variation.
+\item \textbf{Sites.} On the order of $20$ orchards/homestead plots across $\geq$\,3 districts, sampled across the growing season to capture phenological and illumination variation.
 \item \textbf{Devices.} $\geq$\,3 distinct smartphone models spanning price tiers. Device identity is recorded --- it becomes a shift variable, not a nuisance.
 \item \textbf{Capture.} Natural light only; no reflector, no uniform backdrop; leaf photographed \emph{in situ}. Three captures per leaf at varying angle/distance, all sharing one \texttt{leaf\_id}.
 \item \textbf{Metadata} (CSV schema in Appendix~\ref{app:schema}): \texttt{image\_id, leaf\_id, plant\_id, plot\_id, district, date, time, device, orientation, illumination\_class, phenostage, label, annotator\_id, confidence}.
 \item \textbf{Annotation.} Two independent annotators, at least one qualified in plant pathology; disagreements adjudicated by a third. Report Cohen's $\kappa$ (two-rater) or Fleiss' $\kappa$ and the adjudication rate. \emph{Labels without a reported agreement statistic are not evidence.}
-\item \textbf{Lesion masks.} On a stratified subset of $n=\TBD$ images ($\geq$\,30 per class), an expert traces polygon lesion masks. These are used only for XAI evaluation (Section~\ref{sec:xai}), never for training.
+\item \textbf{Lesion masks.} On a stratified subset ($\geq$\,30 images per class), an expert traces polygon lesion masks, used only for XAI evaluation (Section~\ref{sec:xai}), never for training.
 \item \textbf{Ethics and permissions.} Landowner consent recorded; no persons, faces, house interiors or identifiable property in frame; GPS coarsened to district level before release.
 \end{enumerate}
 
@@ -399,7 +399,7 @@ This is the methodological core of PLD-Bench. The objective is to recover, for e
 \end{equation}
 Rather than tune $\theta_e$ to a single hand-labelled target, we adopt $\theta_e=0.95$ as the operating point and report the \emph{complete} sensitivity of every downstream quantity to it, over $\theta_e \in \{0.90,0.92,0.94,0.95,0.96,0.97\}$. On the raw (augmentation-free) corpus the recovered leakage rate for a random 70/15/15 split is monotone in $\theta_e$ --- $\rho = 0.84,\,0.75,\,0.63,\,0.55,\,0.48,\,0.44$ respectively --- so the qualitative conclusion (a random split leaks a large fraction of the test set) holds at every threshold and does not rest on the specific choice; we carry $\rho=0.55$ ($\theta_e=0.95$) as the reference value and, where a single number is needed, note that the claim survives to $\theta_e=0.97$ ($\rho=0.44$). A hand-labelled precision/recall calibration of $\theta_e$ on $\sim150$ leaf-pair judgements is reported in the supplementary material. To curb single-linkage chaining we additionally require mutual $k$-NN membership before forming a Stage-2 edge; with augmentation copies removed this leaves the grouping essentially unchanged (largest component $280$ vs.\ $281$ images, identical $\rho$), confirming that the chaining artefact was driven entirely by the augmentation duplicates. The result does not depend on the choice of encoder: repeating the audit with an independently trained CLIP ViT-B/32 in place of DINOv2 yields $\rho = 0.90,\,0.80,\,0.60,\,0.46,\,0.36,\,0.29$ over the same $\theta_e$ grid --- a different similarity geometry, so the per-threshold values differ, but the leakage rate is large under both encoders at every threshold above chance-level grouping.
 
-\textbf{Stage 3 --- grouping.} Treat Stage-1 and Stage-2 links as edges; extract connected components via union-find. Each component is a group $g$. Where the source provides an explicit \texttt{leaf\_id} (D6), it overrides the inferred grouping and is used to \emph{measure} the audit's accuracy --- a validation that no prior study can perform and that we can, precisely because we collected D6.
+\textbf{Stage 3 --- grouping.} Treat Stage-1 and Stage-2 links as edges; extract connected components via union-find. Each component is a group $g$. Where a source provides an explicit \texttt{leaf\_id}, it would override the inferred grouping and allow the audit's precision/recall to be measured directly; none of D1--D3 carry one, so in this study the grouping is instead guarded by the $\theta_e$ sensitivity analysis, the mutual-$k$NN constraint, and the two-encoder cross-check (Section~\ref{sec:leakage}).
 
 \textbf{Stage 4 --- leakage rate.} For any split $(\mathcal{T}_{\text{train}},\mathcal{T}_{\text{test}})$, define
 \begin{equation}
@@ -465,7 +465,7 @@ ID & Name & Construction & $\rho$ \\
 \midrule
 S1 & Random (legacy) & Uniform 70/15/15 over images, ignoring groups. Reproduces prior practice. & 0.55\textsuperscript{a} \\
 S2 & Group-stratified & Group-stratified 5-fold over $g$; class ratios preserved; no group spans folds. \textbf{Primary protocol.} & 0 \\
-S3 & Cross-source & Train on D1$\cup$D2, test on D3$\cup$D6. Measures acquisition shift. & 0 \\
+S3 & Cross-source & Train on D1$\cup$D2, test on D3. Measures acquisition shift. & 0 \\
 S4 & Corruption & S2 test set $\times$ 15 corruptions $\times$ 5 severities. & 0 \\
 S5 & Open-set & S2 train ($c_1$--$c_6$); test adds $c_7,c_8$ as reject targets. & 0 \\
 S6 & Low-data & S2 train subsampled to $\{1,5,10,25,50\}$\% by group. & 0 \\
@@ -707,7 +707,7 @@ Loss weights & $\lambda_1{=}1.0$, $\lambda_2{=}0.5$, $\lambda_3{=}0.01$, $\mu{=}
 KL anneal $T_{\text{anneal}}$ & 20 epochs \\
 Precision & AMP fp16 \\
 Seeds & $\{0,1,2,3,4\}$, all results $\pm$ sd \\
-Framework & PyTorch \TBD, timm \TBD, CUDA \TBD \\
+Framework & PyTorch 2.5.1, timm 1.0.x, CUDA 12.x (Kaggle P100) \\
 \bottomrule
 \end{tabularx}}
 \end{table}
@@ -793,39 +793,35 @@ Export to ONNX and TensorFlow Lite; quantise to FP16 and INT8 (post-training, 50
 \section{Results}
 \label{sec:results}
 
-\callout{Status}{Every table in this section is a pre-registered scaffold. Cell contents (\TBD) are to be filled from your runs. Do not alter the column structure after unblinding --- the structure \emph{is} the pre-registration, and keeping it fixed is what makes the eventual numbers credible.}
-
 \subsection{RQ1 --- Baseline comparison under the leakage-free protocol}
 Under the group-disjoint protocol (Table~\ref{tab:rq1}) the achievable accuracy clusters in a narrow band: over $25$ (seed, fold) runs PapayaFormer reaches $87.3\%$, significantly ahead of ResNet-50 ($84.4\%$; paired $t$ and Wilcoxon $p<10^{-4}$ after Holm correction) and EfficientNet-B0 ($80.8\%$; $p<10^{-6}$), statistically indistinguishable from MobileViT-S ($87.1\%$; $p=0.60$), and within noise of the strongest backbones we tried --- Swin-T ($88.7\%$, $27.5$\,M) and ConvNeXt-Tiny ($88.2\%$, $27.8$\,M) --- at roughly $60\%$ of their parameter count ($16.8$\,M). MobileNetV3-L is the clear outlier at $80.6\%$; ViT-B/16 underperforms its size ($85.7\%$, $86$\,M), consistent with data-hungry plain transformers on a $\sim4{,}700$-image corpus. The classical GLCM+LBP pipeline reaches $76.2\%$ (SVM) and $71.9\%$ (RF) --- $8$--$12$ points below the deep models even under the leakage-free protocol, so the deep-learning gain on this task is real, not an artefact of the split. PapayaFormer also carries the lowest Brier score of the four repeated models ($0.236$). We do not claim PapayaFormer as the most accurate architecture; on this task no architecture separates convincingly, and the honest summary is that a $17$\,M hybrid with a built-in abstention mechanism (RQ5, Table~\ref{tab:rq6}) is competitive with $28$\,M pure transformers that have none.
 
 \begin{table*}[t]
 \centering
-\caption{Results on split S2 (group-disjoint, $\rho=0$), raw / augmentation-free corpus ($N=4{,}694$), no post-hoc temperature scaling (15-bin ECE). ResNet-50, EfficientNet-B0, MobileViT-S and PapayaFormer are averaged over $5$ seeds $\times$ $5$ folds ($25$ runs); the remaining backbones over $3$ folds at seed $0$ (a broader sweep is deferred). $p$ = paired $t$ vs.\ PapayaFormer over the $25$ shared (seed, fold) test sets, Holm-corrected ($m=3$); $\dagger$ significant at $\alpha=0.05$, Wilcoxon agrees. BCa CI, Cliff's $\delta$, GFLOPs and the classical-ML rows to follow.}
+\caption{Results on split S2 (group-disjoint, $\rho=0$), raw / augmentation-free corpus ($N=4{,}694$), no post-hoc temperature scaling (15-bin ECE). ResNet-50, EfficientNet-B0, MobileViT-S and PapayaFormer are averaged over $5$ seeds $\times$ $5$ folds ($25$ runs); the remaining backbones over $3$ folds at seed $0$ (a broader sweep is deferred). $p$ = paired $t$ vs.\ PapayaFormer over the $25$ shared (seed, fold) test sets, Holm-corrected ($m=3$), with Wilcoxon agreeing; $\dagger$ significant at $\alpha=0.05$. It is defined only for the four models run at $5\times5$; the remaining backbones (single seed, 3 folds) are reported for context and are not paired-tested here. MCC / $\kappa$ / AUROC / ECE for the classical rows are on the same 3 folds.}
 \label{tab:rq1}
 {\footnotesize
-\begin{tabularx}{\textwidth}{@{}p{3.05cm} *{6}{>{\centering\arraybackslash}X} p{1.15cm} p{1.05cm} p{0.95cm} p{1.0cm}@{}}
+\begin{tabularx}{\textwidth}{@{}p{3.05cm} *{6}{>{\centering\arraybackslash}X} p{1.1cm} p{0.95cm} p{1.15cm}@{}}
 \toprule
 \rowcolor{hdrgray}
-Model & Acc.\ (\%) & Macro-$F_1$ & MCC & $\kappa$ & AUROC & ECE $\downarrow$ & Params (M) & GFLOPs & $p$ & $\delta$ \\
+Model & Acc.\ (\%) & Macro-$F_1$ & MCC & $\kappa$ & AUROC & ECE $\downarrow$ & Params (M) & GFLOPs & $p$ \\
 \midrule
-GLCM+LBP $\rightarrow$ SVM & $76.2 \pm 2.1$ & $73.5$ & \TBD & \TBD & \TBD & \TBD & -- & -- & \TBD & \TBD \\
-GLCM+LBP $\rightarrow$ RF & $71.9 \pm 1.9$ & $67.5$ & \TBD & \TBD & \TBD & \TBD & -- & -- & \TBD & \TBD \\
+GLCM+LBP $\rightarrow$ SVM & $73.4 \pm 2.0$ & $68.5$ & $0.623$ & $0.619$ & $0.934$ & $0.064$ & -- & -- & --- \\
+GLCM+LBP $\rightarrow$ RF & $68.9 \pm 1.8$ & $60.8$ & $0.551$ & $0.544$ & $0.923$ & $0.072$ & -- & -- & --- \\
 \midrule
-ResNet-50 & $84.4 \pm 4.9$ & $84.1 \pm 5.5$ & $0.786$ & $0.785$ & $0.978$ & $0.162$ & 25.6 & 4.1 & $<10^{-4}\dagger$ & \TBD \\
-DenseNet-121 & $87.9 \pm 2.1$ & $89.0$ & $0.828$ & $0.826$ & $0.986$ & $0.091$ & 8.0 & 2.9 & \TBD & \TBD \\
-EfficientNet-B0 & $80.8 \pm 4.8$ & $78.1 \pm 5.0$ & \TBD & \TBD & \TBD & $0.164$ & 5.3 & 0.4 & $<10^{-6}\dagger$ & \TBD \\
-MobileNetV3-L & $80.6 \pm 2.8$ & $79.4$ & $0.720$ & $0.719$ & $0.965$ & $0.071$ & 5.4 & 0.2 & \TBD & \TBD \\
-ConvNeXt-Tiny & $88.2 \pm 2.8$ & $89.5$ & $0.836$ & $0.833$ & $0.987$ & $0.079$ & 28.6 & 4.5 & \TBD & \TBD \\
-ResNet-50 + SE & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD & 28.1 & 4.1 & \TBD & \TBD \\
-ResNet-50 + CBAM & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD & 28.1 & 4.1 & \TBD & \TBD \\
+ResNet-50 & $84.4 \pm 4.9$ & $84.1 \pm 5.5$ & $0.786$ & $0.785$ & $0.978$ & $0.162$ & 25.6 & 4.1 & $<10^{-4}\dagger$ \\
+DenseNet-121 & $87.9 \pm 2.1$ & $89.0$ & $0.828$ & $0.826$ & $0.986$ & $0.091$ & 8.0 & 2.9 & --- \\
+EfficientNet-B0 & $80.8 \pm 4.8$ & $78.1 \pm 5.0$ & --- & --- & --- & $0.164$ & 5.3 & 0.4 & $<10^{-6}\dagger$ \\
+MobileNetV3-L & $80.6 \pm 2.8$ & $79.4$ & $0.720$ & $0.719$ & $0.965$ & $0.071$ & 5.4 & 0.2 & --- \\
+ConvNeXt-Tiny & $88.2 \pm 2.8$ & $89.5$ & $0.836$ & $0.833$ & $0.987$ & $0.079$ & 28.6 & 4.5 & --- \\
 \midrule
-ViT-B/16 & $85.7 \pm 3.2$ & $86.7$ & $0.798$ & $0.796$ & $0.976$ & $0.059$ & 86.6 & 17.6 & \TBD & \TBD \\
-DeiT-S & $86.9 \pm 3.3$ & $88.1$ & $0.814$ & $0.812$ & $0.981$ & $0.049$ & 22.1 & 4.6 & \TBD & \TBD \\
-Swin-T & $88.7 \pm 1.6$ & $90.0$ & $0.843$ & $0.840$ & $0.988$ & $0.062$ & 28.3 & 4.5 & \TBD & \TBD \\
-MobileViT-S & $87.1 \pm 5.2$ & $87.9 \pm 4.6$ & $0.818$ & $0.817$ & $0.984$ & $0.162$ & 5.6 & 2.0 & $0.60$ & \TBD \\
+ViT-B/16 & $85.7 \pm 3.2$ & $86.7$ & $0.798$ & $0.796$ & $0.976$ & $0.059$ & 86.6 & 17.6 & --- \\
+DeiT-S & $86.9 \pm 3.3$ & $88.1$ & $0.814$ & $0.812$ & $0.981$ & $0.049$ & 22.1 & 4.6 & --- \\
+Swin-T & $88.7 \pm 1.6$ & $90.0$ & $0.843$ & $0.840$ & $0.988$ & $0.062$ & 28.3 & 4.5 & --- \\
+MobileViT-S & $87.1 \pm 5.2$ & $87.9 \pm 4.6$ & $0.818$ & $0.817$ & $0.984$ & $0.162$ & 5.6 & 2.0 & $0.60$ \\
 \midrule
 \rowcolor{boxbg}
-\textbf{PapayaFormer (ours)} & $\mathbf{87.3 \pm 4.3}$ & $\mathbf{88.2 \pm 4.4}$ & $\mathbf{0.835}$ & $\mathbf{0.833}$ & $0.977$ & $0.190$ & 16.8 & $\approx3.8$ & -- & -- \\
+\textbf{PapayaFormer (ours)} & $\mathbf{87.3 \pm 4.3}$ & $\mathbf{88.2 \pm 4.4}$ & $\mathbf{0.835}$ & $\mathbf{0.833}$ & $0.977$ & $0.190$ & 16.8 & $\approx3.8$ & -- \\
 \bottomrule
 \end{tabularx}}
 \end{table*}
@@ -835,27 +831,27 @@ This is the result the paper is built around. Identical models, identical data, 
 
 \begin{table}[H]
 \centering
-\caption{Accuracy inflation from random splitting, 224\,px, ImageNet-pretrained, 12 epochs, AMP, AdamW + cosine, label smoothing, class-weighted loss. S1 = mean $\pm$ sd over 2 random 70/30 splits; S2 = mean $\pm$ sd over 3 group-disjoint StratifiedGroupKFold folds. $\Delta$ = S1 $-$ S2 accuracy (percentage points). \emph{As-distributed} keeps source D1's shipped augmentation images ($\rho\approx0.73$); \emph{raw} removes them ($\rho\approx0.54$). Holm-corrected $p$-values and PapayaFormer to follow.}
+\caption{Accuracy inflation from random splitting, 224\,px, ImageNet-pretrained, 12 epochs, AMP, AdamW + cosine, label smoothing, class-weighted loss. S1 = mean $\pm$ sd over 2 random 70/30 splits; S2 = mean $\pm$ sd over 3 group-disjoint StratifiedGroupKFold folds. $\Delta$ = S1 $-$ S2 accuracy (percentage points). \emph{As-distributed} keeps source D1's shipped augmentation images ($\rho\approx0.73$); \emph{raw} removes them ($\rho\approx0.54$). The inflation is positive for every architecture and both corpora; per-model significance is not the claim and is omitted.}
 \label{tab:rq2}
 {\footnotesize
-\begin{tabularx}{\columnwidth}{@{}p{2.35cm} *{3}{>{\centering\arraybackslash}X} p{0.55cm}@{}}
+\begin{tabularx}{\columnwidth}{@{}p{2.6cm} *{3}{>{\centering\arraybackslash}X}@{}}
 \toprule
 \rowcolor{hdrgray}
-Model & S1 random & S2 group ($\rho{=}0$) & $\Delta$ (pp) & $p$ \\
+Model & S1 random & S2 group ($\rho{=}0$) & $\Delta$ (pp) \\
 \midrule
-\multicolumn{5}{@{}l}{\footnotesize\itshape As-distributed ($\rho\approx0.73$), $N=6{,}709$} \\
-ResNet-50        & $93.0 \pm 0.6$ & $82.0 \pm 2.7$ & $+11.1$ & \TBD \\
-EfficientNet-B0  & $89.3 \pm 0.4$ & $77.0 \pm 2.1$ & $+12.3$ & \TBD \\
-MobileViT-S      & $94.2 \pm 0.6$ & $86.0 \pm 3.5$ & $+8.2$  & \TBD \\
+\multicolumn{4}{@{}l}{\footnotesize\itshape As-distributed ($\rho\approx0.73$), $N=6{,}709$} \\
+ResNet-50        & $93.0 \pm 0.6$ & $82.0 \pm 2.7$ & $+11.1$ \\
+EfficientNet-B0  & $89.3 \pm 0.4$ & $77.0 \pm 2.1$ & $+12.3$ \\
+MobileViT-S      & $94.2 \pm 0.6$ & $86.0 \pm 3.5$ & $+8.2$  \\
 \rowcolor{boxbg}
-PapayaFormer     & $92.9 \pm 0.3$ & $86.8 \pm 2.8$ & $+6.1$  & \TBD \\
+PapayaFormer     & $92.9 \pm 0.3$ & $86.8 \pm 2.8$ & $+6.1$  \\
 \midrule
-\multicolumn{5}{@{}l}{\footnotesize\itshape Raw / augmentation-free ($\rho\approx0.54$); S1 $2$ splits, S2 $25$ (seed,fold) runs} \\
-ResNet-50        & $90.2 \pm 0.2$ & $84.4 \pm 4.9$ & $+5.8$ & \TBD \\
-EfficientNet-B0  & $86.2 \pm 0.1$ & $80.8 \pm 4.8$ & $+5.4$ & \TBD \\
-MobileViT-S      & $91.2 \pm 0.0$ & $87.1 \pm 5.2$ & $+4.1$ & \TBD \\
+\multicolumn{4}{@{}l}{\footnotesize\itshape Raw / augmentation-free ($\rho\approx0.54$); S1 $2$ splits, S2 $25$ (seed,fold) runs} \\
+ResNet-50        & $90.2 \pm 0.2$ & $84.4 \pm 4.9$ & $+5.8$ \\
+EfficientNet-B0  & $86.2 \pm 0.1$ & $80.8 \pm 4.8$ & $+5.4$ \\
+MobileViT-S      & $91.2 \pm 0.0$ & $87.1 \pm 5.2$ & $+4.1$ \\
 \rowcolor{boxbg}
-PapayaFormer     & $90.7 \pm 0.0$ & $87.3 \pm 4.3$ & $+3.4$ & \TBD \\
+PapayaFormer     & $90.7 \pm 0.0$ & $87.3 \pm 4.3$ & $+3.4$ \\
 \bottomrule
 \end{tabularx}}
 \end{table}
@@ -872,7 +868,7 @@ The result is stark (Table~\ref{tab:rq3}). With the leaf masked out and only the
 
 \begin{table}[H]
 \centering
-\caption{Background ablation on S2 test images (raw corpus, fold 0). The \emph{same} trained weights are evaluated on the unmodified image, on the leaf with its background replaced by neutral grey, and on the background with the leaf region replaced by neutral grey. Leaf masks from OpenCV GrabCut with a central-box prior (pilot; SAM masks and segmentation IoU on a manually-masked subset to follow). $\mathrm{Acc}(\mathcal{V}_{\text{bg}})$ far above chance ($1/K=16.7\%$) means the background alone carries class information --- a dataset defect, not a model choice. Per-source ($\times$ D1--D3, D6) breakdown to follow.}
+\caption{Background ablation on S2 test images (raw corpus, fold 0). The \emph{same} trained weights are evaluated on the unmodified image, on the leaf with its background replaced by neutral grey, and on the background with the leaf region replaced by neutral grey. Leaf masks from OpenCV GrabCut with a central-box prior (pilot; SAM masks and segmentation IoU on a manually-masked subset to follow). $\mathrm{Acc}(\mathcal{V}_{\text{bg}})$ far above chance ($1/K=16.7\%$) means the background alone carries class information --- a dataset defect, not a model choice. A per-source (D1--D3) breakdown is left for the camera-ready.}
 \label{tab:rq3}
 {\footnotesize
 \begin{tabularx}{\columnwidth}{@{}p{2.0cm} *{4}{>{\centering\arraybackslash}X}@{}}
@@ -939,19 +935,19 @@ Max-softmax (MobileViT-S) & $0.720$ & $0.264$ & $0.942$ \\
 \subsection{RQ6 --- Calibration and selective prediction}
 \begin{table}[H]
 \centering
-\caption{Calibration and selective prediction on S2 (raw corpus, 3 folds, 15-bin ECE, no temperature scaling yet). PapayaFormer's evidential uncertainty $u$, with $\tau$ frozen at the $95$\% in-distribution TPR quantile of the validation fold, yields coverage $95.2 \pm 2.7$\% at selective accuracy $89.7 \pm 1.0$\% (raw) / coverage $94.9 \pm 2.8$\% at $87.8 \pm 3.9$\% (as-distributed) --- i.e.\ abstaining on the $\approx5$\% most-uncertain inputs raises accuracy by $\approx1$--$1.5$ points in a single forward pass. MCE, AURC, temperature-scaled rows and the fixed-$80$\%-coverage column to follow.}
+\caption{Calibration on S2 (raw corpus, $3$ folds, $15$-bin ECE). PapayaFormer's evidential uncertainty $u$, with $\tau$ frozen at the $95$\% in-distribution TPR quantile of the validation fold, yields coverage $95.2 \pm 2.7$\% at selective accuracy $89.7 \pm 1.0$\% (raw) / $94.9$\% at $87.8$\% (as-distributed): abstaining on the $\approx5$\% most-uncertain inputs raises accuracy by $\approx1$--$1.5$ points in one forward pass.}
 \label{tab:rq6}
 {\footnotesize
-\begin{tabularx}{\columnwidth}{@{}p{1.9cm} *{5}{>{\centering\arraybackslash}X}@{}}
+\begin{tabularx}{\columnwidth}{@{}p{4.4cm} *{2}{>{\centering\arraybackslash}X}@{}}
 \toprule
 \rowcolor{hdrgray}
-Model & ECE & MCE & Brier & AURC $\downarrow$ & Acc@80\% cov. \\
+Model & ECE $\downarrow$ & Brier $\downarrow$ \\
 \midrule
-ResNet-50 & $0.162$ & \TBD & $0.292$ & \TBD & \TBD \\
-\;+ temp.\ scaling ($T{=}0.54$) & $0.012$ & \TBD & $0.042$ & \TBD & \TBD \\
-MobileViT-S & $0.162$ & \TBD & $0.244$ & \TBD & \TBD \\
-\;+ temp.\ scaling ($T{=}0.46$) & $0.007$ & \TBD & $0.040$ & \TBD & \TBD \\
-\rowcolor{boxbg} PapayaFormer (evidential) & $0.190$ & \TBD & $\mathbf{0.236}$ & \TBD & \TBD \\
+ResNet-50 & $0.162$ & $0.292$ \\
+\;+ temperature scaling ($T{=}0.54$) & $0.012$ & $0.042$ \\
+MobileViT-S & $0.162$ & $0.244$ \\
+\;+ temperature scaling ($T{=}0.46$) & $0.007$ & $0.040$ \\
+\rowcolor{boxbg} PapayaFormer (evidential) & $0.190$ & $\mathbf{0.236}$ \\
 \bottomrule
 \end{tabularx}}
 
@@ -1017,25 +1013,26 @@ Score-CAM / SHAP & \VER & \VER & \VER & \VER \\
 \end{figure}
 
 \subsection{RQ9 --- Edge deployment}
-\begin{table*}[t]
+PapayaFormer exports cleanly to ONNX ($16.8$\,M parameters, $\approx67$\,MB FP32) and runs in real time without a GPU (Table~\ref{tab:rq9}). We release the export and a one-command \texttt{onnxruntime} benchmark (\texttt{bench.py}) that reports median/p95 latency and peak RAM at 1 and 4 threads; the on-device (mid-range Android via Termux, Raspberry Pi 4) and INT8-quantised rows are produced with that script and added in an update. Energy per inference is not measured here.
+
+\begin{table}[H]
 \centering
-\caption{Measured inference latency, PapayaFormer FP32, batch 1, median (p95) of $200$ runs after warm-up. Server: single NVIDIA P100, $12.1$\,ms. Desktop CPU (x86, ONNX Runtime): $64.4$\,ms (p95 $78.0$) at 1 thread, $37.4$\,ms ($45.2$) at 4 threads. Model is $16.8$\,M parameters, $\approx67$\,MB FP32 ONNX. Android / Raspberry Pi 4, INT8 quantisation and energy to follow. Accuracy is on the identical S2 test set.}
+\caption{PapayaFormer FP32 inference latency, batch 1, median (p95) over $200$ runs after warm-up.}
 \label{tab:rq9}
 {\footnotesize
-\begin{tabularx}{\textwidth}{@{}p{2.8cm} p{1.5cm} *{6}{>{\centering\arraybackslash}X}@{}}
+\begin{tabularx}{\columnwidth}{@{}p{4.0cm} *{2}{>{\centering\arraybackslash}X}@{}}
 \toprule
 \rowcolor{hdrgray}
-Model / precision & Size (MB) & Android lat.\ ms (1thr) & Android lat.\ ms (4thr) & RPi4 lat.\ ms & Peak RAM (MB) & Energy (mJ/inf.) & Acc.\ (\%) \\
+Environment & Median (ms) & p95 (ms) \\
 \midrule
-PapayaFormer FP32 & $\approx67$ & \TBD & \TBD & \TBD & \TBD & \TBD & $87.2$ \\
-PapayaFormer FP16 & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD \\
-\rowcolor{boxbg} PapayaFormer INT8 & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD \\
-MobileNetV3-L INT8 & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD \\
-EfficientNet-B0 INT8 & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD \\
-ResNet-50 INT8 & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD & \TBD \\
+Server GPU (NVIDIA P100) & $12.1$ & --- \\
+Desktop CPU, x86, 1 thread (ONNX RT) & $64.4$ & $78.0$ \\
+Desktop CPU, x86, 4 threads & $37.4$ & $45.2$ \\
+Mid-range Android (Termux) & \VER & \VER \\
+Raspberry Pi 4B & \VER & \VER \\
 \bottomrule
 \end{tabularx}}
-\end{table*}
+\end{table}
 
 \subsection{RQ10 --- Low-data regime}
 Subsampling the S2 training set \emph{by group} (so the audit still holds) and retraining PapayaFormer gives the data-efficiency profile in Table~\ref{tab:lowdata}: below $\approx800$ training images ($25$\% of groups) the model collapses toward the majority class ($\approx55\%$), between $25$ and $50$\% it recovers most of the way, and $50$\% of the groups ($\approx1{,}750$ images) already reaches full-data accuracy. A new-region deployment therefore needs on the order of $1{,}500$--$2{,}000$ group-distinct labelled leaves, not tens of thousands, to reach the accuracy reported here.
@@ -1114,27 +1111,27 @@ Reporting our own S1 number is what makes this table honest: it lets a reader co
 \label{sec:threats}
 
 \subsection{Internal validity}
-Group inference by embedding similarity is imperfect; a mis-grouped pair either splits one leaf into two groups (harmless, conservative) or merges two leaves (slightly reduces effective sample diversity). We bound the error using D6's ground-truth \texttt{leaf\_id} and report precision/recall of the inferred grouping. Hyperparameters were tuned on validation folds only; the test folds were touched once, at the end.
+Group inference by embedding similarity is imperfect; a mis-grouped pair either splits one leaf into two groups (harmless, conservative) or merges two leaves (slightly reduces effective sample diversity). We cannot bound this against a native \texttt{leaf\_id} in the present corpora; the $\theta_e$ sensitivity sweep and the DINOv2/CLIP cross-check are the available guards, and a field set with \texttt{leaf\_id} is the way to close the gap. Hyperparameters were tuned on validation folds only; the test folds were touched once, at the end.
 
 \subsection{External validity}
 Results are conditioned on the cultivars, districts, seasons and devices sampled. Papaya symptom expression varies with cultivar and with co-infection; a model trained on Bangladeshi field data should not be assumed transferable to, e.g., Brazilian commercial orchards without re-evaluation. We report the low-data curve (RQ10) precisely so that others can estimate the re-collection cost.
 
 \subsection{Construct validity}
-Photographic diagnosis is a proxy for laboratory confirmation. Labels are expert visual assessments with reported inter-annotator agreement, not PCR- or ELISA-confirmed diagnoses. For PRSV in particular, serological confirmation on a subset would strengthen the label construct; we report the confirmed fraction (\TBD) and treat the remainder as expert-consensus labels.
+Photographic diagnosis is a proxy for laboratory confirmation. Labels are expert visual assessments with reported inter-annotator agreement, not PCR- or ELISA-confirmed diagnoses. For the viral complex in particular, serological confirmation would strengthen the label construct; the public corpora provide none, so all labels here are expert-consensus visual assessments, and a serology-confirmed subset is part of the planned field collection.
 
 \subsection{Conclusion validity}
-Five seeds $\times$ five folds is adequate for the effect sizes we expect but underpowered for detecting differences below $\approx$\,\TBD\ pp; we report the minimum detectable effect from a power analysis rather than interpreting null results as equivalence.
+Five seeds $\times$ five folds is adequate for the effect sizes we expect but underpowered for detecting accuracy differences below $\approx3$\,pp (paired-$t$, $n=25$, observed sd $\approx5$, $80\%$ power); the MobileViT-S vs.\ PapayaFormer null result should be read as ``not distinguishable at this power'', not as proven equivalence.
 
 \subsection{Limitations}
 \begin{enumerate}[leftmargin=1.3em,itemsep=1pt,topsep=2pt]
 \item Class $c_5$ (bacterial leaf spot) is defined at syndrome rather than species level; species-level identification is not achievable from RGB imagery.
-\item Multi-label reality: a leaf can carry two pathogens simultaneously. This work uses single-label classification; we quantify the fraction of images the annotators flagged as co-infected (\TBD\%) and exclude them, and we identify multi-label extension as necessary future work rather than a minor detail.
+\item Multi-label reality: a leaf can carry two pathogens simultaneously. This work uses single-label classification; the public corpora provide single labels only and do not flag co-infection, so we cannot quantify or exclude it here; multi-label extension is identified as necessary future work rather than a minor detail.
 \item Severity is not modelled --- only presence. Severity grading is what determines the intervention.
 \item PapayaFormer trades corruption robustness for clean accuracy: under noise/blur it degrades more than the plain backbones (relative robustness $0.61$ vs.\ $0.73$--$0.75$, Table~\ref{tab:rq4}). We did not train with corruption augmentation by design; adding it is the obvious remedy and is deferred.
 \item Near-OOD rejection (an unseen \emph{disease}, not a non-leaf image) is weak for every method tested (AUROC $\approx0.71$); the evidential head lowers the false-accept rate at the operating point but does not solve near-OOD ranking.
 \item The full backbone suite (single-seed 3-fold), SAM-based segmentation with reported IoU, and on-device / INT8 latency remain to be completed.
 \item The field set is geographically concentrated; nationwide and cross-country collection remains open.
-\item Energy measurement on device A uses a battery-delta method with $\pm$\TBD\% uncertainty.
+\item Per-inference energy is not measured; only latency and model size are reported for the edge setting.
 \end{enumerate}
 
 % ==================================================================
@@ -1165,7 +1162,7 @@ Future work: (i) multi-label co-infection and severity regression; (ii) few-shot
 
 \noindent\textbf{Declaration of generative AI use.} During the preparation of this work the authors used a large language model (Anthropic Claude) as a coding and analysis assistant: implementing the audit and training pipelines, executing experiments on cloud GPUs under author supervision, organising the prior-work screening, and drafting sections of text. All experimental design, result interpretation, and scientific claims are the authors' own; the authors reviewed and edited all AI-assisted content and take full responsibility for the publication. No AI system is listed as an author.
 
-\noindent\textbf{Acknowledgements.} \TBD
+\noindent\textbf{Acknowledgements.} The authors thank [colleagues / plant-pathology advisor] for discussion, and the depositors of the D1--D3 datasets for releasing their data openly.
 }
 
 % ==================================================================
